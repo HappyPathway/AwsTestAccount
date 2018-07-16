@@ -1,7 +1,3 @@
-variable "approle_role_id" {}
-
-variable "approle_secret_id" {}
-
 variable "aws_account_name" {}
 
 variable "service_name" {
@@ -10,19 +6,9 @@ variable "service_name" {
   default     = "WebApp"
 }
 
-resource "vault_approle_auth_backend_role_login" "login" {
-  backend   = "approle"
-  role_id   = "${var.approle_role_id}"
-  secret_id = "${var.approle_secret_id}"
-}
-
-provider "vault" {
-  alias = "approle"
-  token = "${vault_approle_auth_backend_role_login.login.client_token}"
-}
+provider "vault" {}
 
 data "vault_aws_access_credentials" "creds" {
-  provider = "vault.approle"
   backend  = "aws-${var.aws_account_name}"
   role     = "ec2_admin"
 }
