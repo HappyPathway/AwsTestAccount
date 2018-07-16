@@ -1,4 +1,12 @@
+variable "approle_role_id" {}
+
+variable "approle_secret_id" {}
+
 variable "aws_account_name" {}
+
+variable "aws_region" {
+  default = "us-east-1"
+}
 
 variable "service_name" {
   type        = "string"
@@ -9,11 +17,13 @@ variable "service_name" {
 provider "vault" {}
 
 data "vault_aws_access_credentials" "creds" {
+  provider = "vault.approle"
   backend  = "aws-${var.aws_account_name}"
   role     = "ec2_admin"
 }
 
 provider "aws" {
+  region     = "${var.aws_region}"
   access_key = "${data.vault_aws_access_credentials.creds.access_key}"
   secret_key = "${data.vault_aws_access_credentials.creds.secret_key}"
 }
