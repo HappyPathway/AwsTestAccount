@@ -13,9 +13,8 @@ variable "service_name" {
 provider "vault" {}
 
 data "vault_aws_access_credentials" "creds" {
-  provider = "vault.approle"
-  backend  = "aws-${var.aws_account_name}"
-  role     = "ec2_admin"
+  backend = "aws-${var.aws_account_name}"
+  role    = "ec2_admin"
 }
 
 provider "aws" {
