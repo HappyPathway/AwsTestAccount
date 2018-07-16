@@ -1,7 +1,3 @@
-variable "approle_role_id" {}
-
-variable "approle_secret_id" {}
-
 variable "aws_account_name" {}
 
 variable "aws_region" {
