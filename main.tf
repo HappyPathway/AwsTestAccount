@@ -10,9 +10,12 @@ variable "service_name" {
   default     = "WebApp"
 }
 
-provider "vault" {}
+provider "vault" {
+  alias = "provider"  
+}
 
 data "vault_aws_access_credentials" "creds" {
+  provider = "vault.provider"
   backend = "aws-${var.aws_account_name}"
   role    = "ec2_admin"
 }
